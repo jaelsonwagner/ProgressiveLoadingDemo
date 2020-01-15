@@ -1,9 +1,9 @@
 package com.nekodev.paulina.sadowska.progressiveloadingdemo
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.data.BitmapResult
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.data.ResponseState
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.bitmapResult.observe(this, Observer<BitmapResult> { it -> process(it) })
+        viewModel.bitmapResult.observe(this, Observer<BitmapResult> { process(it) })
         viewModel.loadImages(listOf(3000, 10, 300))
     }
 

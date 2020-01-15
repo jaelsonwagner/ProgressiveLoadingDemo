@@ -1,6 +1,6 @@
 package com.nekodev.paulina.sadowska.progressiveloadingdemo
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.ImageFetcher
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.data.BitmapResult
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.data.BitmapWithQuality
