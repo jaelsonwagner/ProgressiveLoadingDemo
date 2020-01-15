@@ -36,6 +36,12 @@ dependencies {
 
     // <editor-fold desc="Picasso">
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
+    // </editor-fold>
+
+    // <editor-fold desc="Stetho">
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1' // for OkHttp library
     // </editor-fold>
 
     // <editor-fold desc="Test">

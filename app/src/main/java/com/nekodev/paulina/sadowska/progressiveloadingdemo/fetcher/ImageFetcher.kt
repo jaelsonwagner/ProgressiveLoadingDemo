@@ -10,6 +10,8 @@ import io.reactivex.Single
  */
 class ImageFetcher(private val picasso: Picasso) {
 
+    private val pet = 237
+
     fun loadProgressively(baseUrl: String, qualities: List<Int>): Observable<BitmapWithQuality> {
         return qualities
                 .map { quality -> Pair(createUrl(baseUrl, quality), quality) }
@@ -36,6 +38,6 @@ class ImageFetcher(private val picasso: Picasso) {
                 .onErrorResumeNext(Observable.empty<BitmapWithQuality>())
     }
 
-    private fun createUrl(url: String, size: Int): String = "$url/$size/$size?image=0" //?image=0 added so image wont be random
+    private fun createUrl(url: String, size: Int): String = "$url/id/${pet}/$size/$size"
 }
 

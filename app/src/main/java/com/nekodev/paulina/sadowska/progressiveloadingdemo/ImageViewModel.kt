@@ -1,5 +1,6 @@
 package com.nekodev.paulina.sadowska.progressiveloadingdemo
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.ImageFetcher
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.data.BitmapResult
@@ -17,16 +18,28 @@ class ImageViewModel {
     private val disposable = CompositeDisposable()
     private val fetcher = ImageFetcher(Picasso.get())
 
-    val bitmapResult = MutableLiveData<BitmapResult>()
+    private val _bitmapResult = MutableLiveData<BitmapResult>()
+
+    val bitmapResult: LiveData<BitmapResult>
+        get() = _bitmapResult
 
     fun loadImages(qualities: List<Int>) {
-        bitmapResult.value = BitmapResult.loading()
-        disposable.add(fetcher.loadProgressively(BASE_IMAGE_URL, qualities)
-                .filter { getCurrentQuality() < it.quality }
-                .subscribeBy(
-                        onNext = { applyImage(it) },
-                        onComplete = { postErrorIfNotSufficientQuality() }
-                ))
+        _bitmapResult.value = BitmapResult.loading()
+
+        disposable.add(
+                fetcher.loadProgressively(BASE_IMAGE_URL, qualities)
+                        .doOnSubscribe { resetImageView() }
+                        .filter { getCurrentQuality() < it.quality }
+                        .subscribeBy(
+                                onNext = { applyImage(it) },
+                                onComplete = {
+                                    postErrorIfNotSufficientQuality()
+                                }
+                        ))
+    }
+
+    private fun resetImageView() {
+        _bitmapResult.value = BitmapResult.loading()
     }
 
     private fun getCurrentQuality(): Int {
@@ -34,12 +47,12 @@ class ImageViewModel {
     }
 
     private fun applyImage(bitmap: BitmapWithQuality) {
-        bitmapResult.value = BitmapResult.success(bitmap)
+        _bitmapResult.value = BitmapResult.success(bitmap)
     }
-    
+
     private fun postErrorIfNotSufficientQuality() {
         if (getCurrentQuality() < 0) {
-            bitmapResult.value = BitmapResult.error()
+            _bitmapResult.value = BitmapResult.error()
         }
     }
 

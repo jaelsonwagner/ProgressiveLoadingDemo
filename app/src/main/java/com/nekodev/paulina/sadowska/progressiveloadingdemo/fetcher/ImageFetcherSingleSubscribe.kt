@@ -1,6 +1,8 @@
 package com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher
 
 import com.nekodev.paulina.sadowska.progressiveloadingdemo.fetcher.data.BitmapWithQuality
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import io.reactivex.SingleEmitter
@@ -22,6 +24,8 @@ class ImageFetcherSingleSubscribe(private val picasso: Picasso,
 
         runningTargets.add(target)
         picasso.load(url)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)     // avoiding cache to force reload
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)  // avoiding cache to force reload
                 .into(target)
     }
 
